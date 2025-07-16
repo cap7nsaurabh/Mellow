@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Mood } from "@/types/Mood";
+import { Mood } from "@/types/mood";
 
 
 export default function AdminPanel() {

@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import NavBar from "../components/NavBar";
-import { Mood } from "@/types/Mood";
+import { Mood } from "@/types/mood";
+
 
 
 export default function DashboardPage() {
