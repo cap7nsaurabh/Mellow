@@ -5,7 +5,8 @@ Mellow is an elegant web application that creates personalized ambient music exp
 ## Features ✨
 
 - **Interactive Mood Selection**: Beautiful, card-based interface with mood emojis and colors
-- **Admin Dashboard**: Powerful admin interface to manage moods with add/delete capabilities
+- **Admin Dashboard**: Comprehensive admin hub with mood and music management
+- **Music Metadata Management**: Upload and edit music details for each mood
 - **User Authentication**: Secure login and signup with NextAuth.js
 - **Responsive Design**: Fluid layout that works perfectly on all devices
 - **Personalized Dashboard**: Dynamic welcome messages and mood tracking
@@ -85,15 +86,21 @@ mellow/
 - Real-time loading states
 - Protected route with session validation
 
-### Admin Panel
-- Secure admin-only access
-- Add new moods with custom:
-  - Emoji representations
-  - Color schemes
-  - Mood names
-- Delete existing moods
-- Real-time mood management
+### Admin Hub
+- Secure admin-only access with tabbed interface
+- **Mood Management Panel**:
+  - Add new moods with custom emoji representations
+  - Customize color schemes for mood cards
+  - Define mood names
+  - Delete existing moods
+  - Real-time mood management
+- **Music Metadata Panel**:
+  - Upload music details
+  - Edit music metadata
+  - Associate music with specific moods
+  - Manage music library
 - Immediate reflection of changes in user dashboard
+- Beautiful card-based admin interface with hover effects
 
 ### Authentication
 - Secure user sessions with NextAuth.js
