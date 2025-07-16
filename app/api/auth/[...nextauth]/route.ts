@@ -30,14 +30,19 @@ export const authOptions: AuthOptions = {
     signIn: "/login",
     error: "/login",
   },
-  callbacks: {
-    async session({ session, token }) {
-      if (token && session.user) {
-        (session.user as any).id = token.sub;
-      }
-      return session;
-    },
+  // Inside callbacks in authOptions:
+callbacks: {
+  async session({ session, token }) {
+    if (token && session.user) {
+      (session.user as any).id = token.sub;
+      // Fetch role and add to session
+      const dbUser = await User.findOne({ email: session.user.email });
+      if (dbUser) (session.user as any).role = dbUser.role;
+    }
+    return session;
   },
+}
+
 };
 
 const handler = NextAuth(authOptions);

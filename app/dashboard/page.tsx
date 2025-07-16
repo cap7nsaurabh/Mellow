@@ -1,25 +1,38 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import NavBar from "../components/NavBar";
+import { Mood } from "@/types/Mood";
 
-const demoMoods = [
-  { name: "Calm", emoji: "🧘‍♂️", color: "from-blue-200 to-purple-300" },
-  { name: "Focus", emoji: "🎧", color: "from-yellow-200 to-orange-300" },
-  { name: "Sleep", emoji: "🌙", color: "from-indigo-200 to-blue-400" },
-  { name: "Happy", emoji: "😊", color: "from-pink-200 to-yellow-200" },
-  { name: "Energetic", emoji: "⚡", color: "from-green-200 to-yellow-300" },
-  { name: "Sad", emoji: "😔", color: "from-gray-200 to-blue-200" },
-];
 
-export default async function DashboardPage() {
-  const session = await getServerSession(authOptions);
+export default function DashboardPage() {
+  const [moods, setMoods] = useState<Mood[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  if (!session) {
-    redirect("/login");
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/login");
+    }
+    if (status === "authenticated") {
+      fetch("/api/moods")
+        .then((res) => res.json())
+        .then((data) => {
+          setMoods(data.moods);
+          setLoading(false);
+        });
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="text-lg text-gray-600">Loading...</span>
+      </div>
+    );
   }
-
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex flex-col items-center">
@@ -31,20 +44,26 @@ export default async function DashboardPage() {
         </p>
       </header>
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-4xl px-4">
-        {demoMoods.map((mood) => (
-          <div
-            key={mood.name}
-            className={`
-              flex flex-col items-center justify-center rounded-2xl shadow-xl
-              bg-gradient-to-br ${mood.color}
-              hover:scale-105 hover:shadow-2xl transition-all duration-200 cursor-pointer
-              h-48
-            `}
-          >
-            <span className="text-5xl mb-2">{mood.emoji}</span>
-            <span className="text-xl font-bold text-gray-700">{mood.name}</span>
-          </div>
-        ))}
+        {loading ? (
+          <div className="col-span-full text-gray-500 text-xl">Loading moods...</div>
+        ) : moods.length === 0 ? (
+          <div className="col-span-full text-gray-500 text-xl">No moods yet. Add some in the admin panel!</div>
+        ) : (
+          moods.map((mood) => (
+            <div
+              key={mood._id}
+              className="
+                flex flex-col items-center justify-center rounded-2xl shadow-xl
+                hover:scale-105 hover:shadow-2xl transition-all duration-200 cursor-pointer
+                h-48 w-full
+              "
+              style={{ background: mood.color }}
+            >
+              <span className="text-5xl mb-2">{mood.emoji}</span>
+              <span className="text-xl font-bold text-gray-700">{mood.name}</span>
+            </div>
+          ))
+        )}
       </main>
     </div>
   );
