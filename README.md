@@ -20,6 +20,8 @@ Mellow is an elegant web application that creates personalized ambient music exp
 - **Styling**: Tailwind CSS with custom gradients
 - **Authentication**: NextAuth.js with session management
 - **Database**: MongoDB with custom models
+- **Cloud Storage**: AWS S3 for music file storage and streaming
+- **Audio Streaming**: Integrated music streaming capabilities
 - **Fonts**: Geist Sans and Geist Mono from Google Fonts
 - **UI Components**: Custom components with Tailwind animations
 - **TypeScript**: For type-safe development
@@ -45,12 +47,18 @@ Mellow is an elegant web application that creates personalized ambient music exp
    ```
 
 3. Set up environment variables:
-   Create a `.env.local` file in the root directory and add:
+   Create a `.env.local` file in the root directory based on `.env.example`:
    ```
    MONGODB_URI=your_mongodb_connection_string
    NEXTAUTH_SECRET=your_nextauth_secret
    NEXTAUTH_URL=http://localhost:3000
    ADMIN_EMAIL=your_admin_email@example.com    # Email for admin access
+   
+   # AWS S3 Configuration for Music Storage
+   AWS_ACCESS_KEY_ID=your_aws_access_key_id
+   AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+   AWS_REGION=your_aws_region
+   S3_BUCKET=your_s3_bucket_name
    ```
 
 4. Run the development server:
@@ -94,11 +102,16 @@ mellow/
   - Define mood names
   - Delete existing moods
   - Real-time mood management
-- **Music Metadata Panel**:
-  - Upload music details
-  - Edit music metadata
+- **Music Management**:
+  - Upload music files directly to AWS S3
+  - Add and edit music metadata
   - Associate music with specific moods
-  - Manage music library
+  - Manage comprehensive music library
+- **Music Library**:
+  - Stream uploaded music directly in the admin panel
+  - View all uploaded music files
+  - Real-time music playback
+  - Organize and manage music collection
 - Immediate reflection of changes in user dashboard
 - Beautiful card-based admin interface with hover effects
 

@@ -5,6 +5,6 @@ export type Music = {
   mood: string;
   thumbnailUrl: string;
   musicUrl: string;
-  date: string;    // ISO string
-  duration: number; // seconds
+  date: string;
+  duration: number;
 };
